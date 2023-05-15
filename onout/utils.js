@@ -11,6 +11,13 @@ function isValidAccessCode(value) {
   return value.trim() === constants.accessCode;
 }
 
+function generateDateId(name) {
+  return `${name}_${new Date().getMinutes()}_${new Date().getDate()}_${
+    // +1 because first month starts from 0
+    new Date().getMonth() + 1
+  }_${new Date().getFullYear()}`;
+}
+
 function wrapInHtmlTemplate(html) {
   return `
   <html lang='en'>
@@ -69,6 +76,7 @@ function returnErrorsHtmlPage({ title, description }) {
 export default {
   escapeAttr,
   isValidAccessCode,
+  generateDateId,
   wrapInHtmlTemplate,
   returnErrorsHtmlPage,
 };
