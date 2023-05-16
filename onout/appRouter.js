@@ -33,29 +33,44 @@ router.post(
     res.send(
       utils.wrapInHtmlTemplate(
         `
-      <header>
-        <h2 class='deploymentPageTitle'>Create own SpeechGPT</h2>
-      </header>
-      <main>
-        <section class="deploymentSection">
-          <form method="post" action="app/deploy">
-            <div class="row">
-              <label for="appNameInput">
-                App name:
-              </label>
-              <input type='text' name='app_name' placeholder='My speech app' id='appNameInput' required>
-            </div>
-            <div class="row">
-              <label for="appLogoInput">
-                Logo URL:
-              </label>
-              <input type='text' name='app_logo' id='appLogoInput' required>
-            </div>
+    <header>
+      <h2 class='deploymentPageTitle'>Create own SpeechGPT app</h2>
+    </header>
+    <main>
+      <section class="deploymentSection">
+        <form method="post" action="app/deploy">
+          <div class="row">
+            <label for="openAiInput">
+                OpenAI API key. <a href="https://platform.openai.com/" target='_blank' rel="noreferrer">Get it here</a> *
+            </label>
+            <input type='text' name='openai_sk' placeholder='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' id='openAiInput' required>
+          </div>
+          <div class="row">
+            <label for="awsPollyInput">
+              Amazon Polly. <a href="https://aws.amazon.com/polly/" target='_blank' rel="noreferrer">Get it here</a> *
+            </label>
+            <input type='text' name='aws_polly_key' placeholder='' id='awsPollyInput' required>
+          </div>
 
-            <input type='submit' value='Generate your app!' class='primaryBtn'>
-          </form>
-        </section>
-      </main>
+          <p><strong>Interface</strong></p>
+
+          <div class="row">
+            <label for="appNameInput">
+              App name:
+            </label>
+            <input type='text' name='app_name' placeholder='My speech app' id='appNameInput' required>
+          </div>
+          <div class="row">
+            <label for="appLogoInput">
+              Logo URL:
+            </label>
+            <input type='text' name='app_logo' id='appLogoInput' required>
+          </div>
+
+          <input type='submit' value='Deploy your app' class='primaryBtn'>
+        </form>
+      </section>
+    </main>
     `
       )
     );
