@@ -92,9 +92,9 @@ router.post(
         );
       }
 
-      const { name, logo, titleAndLogo } = appVars;
+      const { titleAndLogo } = appVars;
 
-      fs.readFile(name.filePath, 'utf8', (readError, data) => {
+      fs.readFile(titleAndLogo.filePath, 'utf8', (readError, data) => {
         if (readError) {
           return res.status(500).send(
             utils.returnErrorsHtmlPage({
@@ -104,7 +104,7 @@ router.post(
           );
         }
 
-        const match = data.match(name.regex);
+        const match = data.match(titleAndLogo.regex);
 
         if (!match) {
           console.error('No match!');
@@ -115,9 +115,9 @@ router.post(
           );
         }
 
-        const newData = data.replace(name.regex, name.newContent(appName));
+        const newData = data.replace(titleAndLogo.regex, titleAndLogo.newContent(appLogo, appName));
 
-        fs.writeFile(name.filePath, newData, (writeError, data) => {
+        fs.writeFile(titleAndLogo.filePath, newData, writeError => {
           if (writeError) {
             return res.status(500).send(
               utils.returnErrorsHtmlPage({
@@ -127,13 +127,25 @@ router.post(
             );
           }
 
-          res.send(
-            utils.wrapInHtmlTemplate(`
+          // @todo deploy
+          exec('npm run build', buildError => {
+            if (buildError) {
+              return res.status(500).send(
+                utils.returnErrorsHtmlPage({
+                  title: 'Something went wrong with building',
+                  description: buildError.message,
+                })
+              );
+            }
+
+            res.send(
+              utils.wrapInHtmlTemplate(`
                 <header>
                   <h2>Succesful creation!</h2>
                 </header>
               `)
-          );
+            );
+          });
         });
       });
     });
